@@ -22,9 +22,9 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
-          source_file: "content/*.md"
+          source_file: "content/"
           destination_repo: "Allianaab2m/ab2m.link"
-          destination_folder: "src/content/blog/"
+          destination_folder: "src/"
           destination_branch: "blog-update"
           user_email: "56180684+Allianaab2m@users.noreply.github.com"
           user_name: "Alliana"
