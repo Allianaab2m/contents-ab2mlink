@@ -17,6 +17,11 @@ jobs:
         with:
           PATTERNS: content/blog/*.md
 
+      - name: Set current datetime as env variable
+        env:
+          TZ: 'Asia/Tokyo' # タイムゾーン指定
+        run: echo "CURRENT_DATETIME=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_ENV
+
       - name: Push file
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
@@ -28,7 +33,7 @@ jobs:
           destination_branch: "blog-update"
           user_email: "56180684+Allianaab2m@users.noreply.github.com"
           user_name: "Alliana"
-          commit_message: "Blog article update"
+          commit_message: "Blog article update ${{ env.CURRENT_DATETIME }}"
         if: env.GIT_DIFF
       - name: Dispatch create-pr
         uses: peter-evans/repository-dispatch@v1
