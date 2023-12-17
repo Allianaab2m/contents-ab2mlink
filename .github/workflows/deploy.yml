@@ -1,0 +1,40 @@
+name: Make pull request for main repo
+
+on:
+  workflow_dispatch:
+  push:
+    branches: main
+
+jobs:
+  make-pr:
+    name: Make pull request for main repo
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: technote-space/get-diff-action@v4.0.1
+        with:
+          PATTERNS: content/*.md
+
+      - name: Push file
+        uses: dmnemec/copy_file_to_another_repo_action@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        with:
+          source_file: "content/*.md"
+          destination_repo: "Allianaab2m/ab2m.link"
+          destination_folder: "src/content/blog/"
+          destination_branch: "blog-update"
+          user_email: "56180684+Allianaab2m@users.noreply.github.com"
+          user_name: "Alliana"
+          commit_message: "Blog article update"
+        if: env.GIT_DIFF
+      - name: Dispatch create-pr
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          repository: "Allianaab2m/ab2m.link"
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          event-type: create-pr
+        if: env.GIT_DIFF
+
