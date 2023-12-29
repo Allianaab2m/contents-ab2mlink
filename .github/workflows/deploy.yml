@@ -35,11 +35,4 @@ jobs:
           user_name: "Alliana"
           commit_message: "Blog article update ${{ env.CURRENT_DATETIME }}"
         if: env.GIT_DIFF
-      - name: Dispatch create-pr
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          repository: "Allianaab2m/ab2m.link"
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          event-type: create-pr
-        if: env.GIT_DIFF
 
